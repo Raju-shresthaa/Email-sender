@@ -1,16 +1,21 @@
-# This is a sample Python script.
+from email.message import EmailMessage
+import ssl
+import smtplib
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+email_sender = "rajusth567@gmail.com"
+email_password = "."
+email_receiver = 'rajusthanp@gmil.com'
+subject = "Donot forget to subscribe"
+body = """"
+Hi there
+"""
+em = EmailMessage()
+em['From'] = email_sender
+em['To'] = email_receiver
+em['subject'] = subject
+em.set_content(body)
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+context = ssl.create_default_context()
+with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+    smtp.login(email_sender, email_password)
+    smtp.sendmail(email_sender, email_receiver, em.as_string())
